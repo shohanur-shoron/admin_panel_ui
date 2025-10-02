@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar sidebar-collapsed">
+      <div class="sidebar-header">
+        <h1 id="sidebar-title" class="sidebar-title">Admin</h1>
+      </div>
+      <nav id="sidebar-nav" class="sidebar-nav">
+        <!-- Dashboard Link -->
+        <button data-nav-id="Dashboard" class="nav-item nav-item-active">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-text">Dashboard</span>
+          <span class="tooltip">Dashboard</span>
+        </button>
+
+        <!-- Users Group -->
+        <div class="nav-group">
+          <button data-group-id="Users" class="nav-item" aria-expanded="false" aria-controls="Users-submenu">
+            <div class="nav-item-content">
+              <i data-lucide="users"></i>
+              <span class="nav-text">Users</span>
+              <span class="tooltip">Users</span>
+            </div>
+            <span class="nav-arrow">
+              <i data-lucide="chevron-down"></i>
+            </span>
+          </button>
+          <div id="Users-submenu" class="submenu submenu-collapsed" role="region">
+            <button data-nav-id="AllUsers" class="nav-item submenu-item">
+              <i data-lucide="users"></i>
+              <span class="nav-text-sm">All Users</span>
+            </button>
+            <button data-nav-id="AddUser" class="nav-item submenu-item">
+              <i data-lucide="user-plus"></i>
+              <span class="nav-text-sm">Add User</span>
+            </button>
+            <button data-nav-id="ActiveUsers" class="nav-item submenu-item">
+              <i data-lucide="user-check"></i>
+              <span class="nav-text-sm">Active Users</span>
+            </button>
+            <button data-nav-id="InactiveUsers" class="nav-item submenu-item">
+              <i data-lucide="user-x"></i>
+              <span class="nav-text-sm">Inactive Users</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Settings Group -->
+        <div class="nav-group">
+          <button data-group-id="Settings" class="nav-item" aria-expanded="false" aria-controls="Settings-submenu">
+            <div class="nav-item-content">
+              <i data-lucide="settings"></i>
+              <span class="nav-text">Settings</span>
+              <span class="tooltip">Settings</span>
+            </div>
+            <span class="nav-arrow">
+              <i data-lucide="chevron-down"></i>
+            </span>
+          </button>
+          <div id="Settings-submenu" class="submenu submenu-collapsed" role="region">
+            <button data-nav-id="General" class="nav-item submenu-item">
+              <i data-lucide="sliders"></i>
+              <span class="nav-text-sm">General</span>
+            </button>
+            <button data-nav-id="Security" class="nav-item submenu-item">
+              <i data-lucide="shield"></i>
+              <span class="nav-text-sm">Security</span>
+            </button>
+            <button data-nav-id="Preferences" class="nav-item submenu-item">
+              <i data-lucide="globe"></i>
+              <span class="nav-text-sm">Preferences</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reports Group -->
+        <div class="nav-group">
+            <button data-group-id="Reports" class="nav-item" aria-expanded="false" aria-controls="Reports-submenu">
+                <div class="nav-item-content">
+                    <i data-lucide="file-bar-chart"></i>
+                    <span class="nav-text">Reports</span>
+                    <span class="tooltip">Reports</span>
+                </div>
+                <span class="nav-arrow">
+                    <i data-lucide="chevron-down"></i>
+                </span>
+            </button>
+            <div id="Reports-submenu" class="submenu submenu-collapsed" role="region">
+                <button data-nav-id="SalesReport" class="nav-item submenu-item">
+                    <i data-lucide="file-text"></i>
+                    <span class="nav-text-sm">Sales Report</span>
+                </button>
+                <button data-nav-id="UserReport" class="nav-item submenu-item">
+                    <i data-lucide="file-text"></i>
+                    <span class="nav-text-sm">User Report</span>
+                </button>
+                <button data-nav-id="Export" class="nav-item submenu-item">
+                    <i data-lucide="download"></i>
+                    <span class="nav-text-sm">Export Data</span>
+                </button>
+                <button data-nav-id="Share" class="nav-item submenu-item">
+                    <i data-lucide="share"></i>
+                    <span class="nav-text-sm">Share Reports</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Analytics Group -->
+        <div class="nav-group">
+            <button data-group-id="Analytics" class="nav-item" aria-expanded="false" aria-controls="Analytics-submenu">
+                <div class="nav-item-content">
+                    <i data-lucide="trending-up"></i>
+                    <span class="nav-text">Analytics</span>
+                    <span class="tooltip">Analytics</span>
+                </div>
+                <span class="nav-arrow">
+                    <i data-lucide="chevron-down"></i>
+                </span>
+            </button>
+            <div id="Analytics-submenu" class="submenu submenu-collapsed" role="region">
+                <button data-nav-id="Overview" class="nav-item submenu-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span class="nav-text-sm">Overview</span>
+                </button>
+                <button data-nav-id="Traffic" class="nav-item submenu-item">
+                    <i data-lucide="activity"></i>
+                    <span class="nav-text-sm">Traffic</span>
+                </button>
+                <button data-nav-id="Demographics" class="nav-item submenu-item">
+                    <i data-lucide="pie-chart"></i>
+                    <span class="nav-text-sm">Demographics</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Logout Link -->
+        <button data-nav-id="Logout" class="nav-item">
+          <i data-lucide="log-out"></i>
+          <span class="nav-text">Logout</span>
+          <span class="tooltip">Logout</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main content area -->
+    <div class="main-content">
+      <!-- Top bar -->
+      <header class="top-bar">
+        <button id="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Open sidebar">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="search-container">
+          <div class="search-icon">
+            <i data-lucide="search"></i>
+          </div>
+          <input type="text" placeholder="Search..." class="search-input" aria-label="Search" />
+        </div>
+
+        <div class="top-bar-right">
+          <!-- Notifications -->
+          <div id="notifications-container" class="notifications-container">
+            <button id="notifications-button" class="icon-button" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+              <i data-lucide="bell"></i>
+              <span class="notification-dot"></span>
+            </button>
+            <div id="notifications-menu" class="dropdown-menu" style="display: none;">
+              <div class="dropdown-header">Notifications</div>
+              <ul>
+                <li><a href="#" class="dropdown-item">New user registered</a></li>
+                <li><a href="#" class="dropdown-item">Sales report is ready</a></li>
+                <li><a href="#" class="dropdown-item">Server downtime scheduled</a></li>
+              </ul>
+              <div class="dropdown-footer">
+                <a href="#" class="footer-link">View All</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile -->
+          <div id="profile-container" class="profile-container">
+            <button id="profile-button" class="profile-button" aria-label="User menu" aria-haspopup="true" aria-expanded="false">
+              <div class="avatar">JD</div>
+              <span id="profile-name" class="profile-name">John Doe</span>
+            </button>
+            <div id="profile-menu" class="dropdown-menu" style="display: none;">
+              <a href="#" class="dropdown-item">Profile</a>
+              <a href="#" class="dropdown-item">Settings</a>
+              <a href="#" class="dropdown-item">Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard content -->
+      <main class="dashboard-main">
+        <h2 class="dashboard-title">Dashboard Overview</h2>
+        <div class="metrics-grid">
+          <!-- Metric Card: Total Users -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <p class="metric-title">Total Users</p>
+                <p class="metric-value" data-target="1245">0</p>
+              </div>
+              <div class="metric-icon">
+                <i data-lucide="users"></i>
+              </div>
+            </div>
+            <div class="metric-footer">
+              <span class="metric-change positive">▲ 5%</span>
+              <span class="metric-period">vs last month</span>
+            </div>
+          </div>
+          <!-- Metric Card: Total Sales -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <p class="metric-title">Total Sales</p>
+                <p class="metric-value" data-target="893">0</p>
+              </div>
+              <div class="metric-icon">
+                <i data-lucide="file-bar-chart"></i>
+              </div>
+            </div>
+            <div class="metric-footer">
+              <span class="metric-change positive">▲ 8%</span>
+              <span class="metric-period">vs last month</span>
+            </div>
+          </div>
+          <!-- Metric Card: Revenue -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <p class="metric-title">Revenue</p>
+                <p class="metric-value" data-target="45700">0</p>
+              </div>
+              <div class="metric-icon">
+                <i data-lucide="trending-up"></i>
+              </div>
+            </div>
+            <div class="metric-footer">
+              <span class="metric-change positive">▲ 12%</span>
+              <span class="metric-period">vs last month</span>
+            </div>
+          </div>
+          <!-- Metric Card: Active Sessions -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <p class="metric-title">Active Sessions</p>
+                <p class="metric-value" data-target="178">0</p>
+              </div>
+              <div class="metric-icon">
+                <i data-lucide="user"></i>
+              </div>
+            </div>
+            <div class="metric-footer">
+              <span class="metric-change negative">▼ 3%</span>
+              <span class="metric-period">vs last month</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>
