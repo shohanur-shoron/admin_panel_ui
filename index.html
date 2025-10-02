@@ -79,16 +79,6 @@
               <i data-lucide="globe"></i>
               <span class="nav-text-sm">Preferences</span>
             </button>
-            <!-- Theme Settings -->
-            <div id="theme-settings" class="nav-item submenu-item">
-              <i data-lucide="sun-moon"></i>
-              <span class="nav-text-sm">Theme</span>
-              <select id="theme-select" class="theme-select">
-                <option value="system">System</option>
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </select>
-            </div>
           </div>
         </div>
 
@@ -176,6 +166,11 @@
         </div>
 
         <div class="top-bar-right">
+          <!-- Theme Toggle -->
+          <button id="theme-toggle-btn" class="icon-button" aria-label="Toggle theme">
+            <i data-lucide="sun" class="theme-icon-sun"></i>
+            <i data-lucide="moon" class="theme-icon-moon"></i>
+          </button>
           <!-- Notifications -->
           <div id="notifications-container" class="notifications-container">
             <button id="notifications-button" class="icon-button" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
