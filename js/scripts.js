@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const metricValueElements = document.querySelectorAll('.metric-value');
 
-  const themeSelect = document.getElementById('theme-select');
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const views = document.querySelectorAll('.view');
 
   // --- State Management ---
@@ -203,20 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Applies the selected theme.
-   * @param {string} theme - The theme to apply ('light', 'dark', or 'system').
+   * Applies the given theme.
+   * @param {string} theme - The theme to apply ('light' or 'dark').
    */
   function applyTheme(theme) {
-    let finalTheme = theme;
-    if (theme === 'system') {
-      finalTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
-    document.documentElement.setAttribute('data-theme', finalTheme);
-    localStorage.setItem('theme', theme); // Always store the user's *choice*
-    if (themeSelect) {
-        themeSelect.value = theme;
-    }
+    document.documentElement.setAttribute('data-theme', theme);
   }
 
 
@@ -281,19 +272,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Theme selector
-  if (themeSelect) {
-    themeSelect.addEventListener('change', (e) => {
-        applyTheme(e.target.value);
+  // Theme toggle
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme); // Save user's explicit choice
+        applyTheme(newTheme);
     });
   }
 
-  // Listen for changes in system theme preference
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'system') {
-      applyTheme('system');
-    }
+  // Listen for system theme changes to apply if no preference is set
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+      }
   });
 
 
@@ -308,9 +301,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set the initial active navigation item
   setActiveNav(activeNavId);
 
-  // Apply saved theme on load
-  const savedTheme = localStorage.getItem('theme') || 'system';
-  applyTheme(savedTheme);
+  // Apply saved theme on load, or default to system preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+      applyTheme(savedTheme);
+  } else {
+      applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
 
   // Initial render of Lucide icons
   lucide.createIcons();
