@@ -79,6 +79,16 @@
               <i data-lucide="globe"></i>
               <span class="nav-text-sm">Preferences</span>
             </button>
+            <!-- Theme Settings -->
+            <div id="theme-settings" class="nav-item submenu-item">
+              <i data-lucide="sun-moon"></i>
+              <span class="nav-text-sm">Theme</span>
+              <select id="theme-select" class="theme-select">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -200,73 +210,162 @@
         </div>
       </header>
 
-      <!-- Dashboard content -->
+      <!-- Main views content -->
       <main class="dashboard-main">
-        <h2 class="dashboard-title">Dashboard Overview</h2>
-        <div class="metrics-grid">
-          <!-- Metric Card: Total Users -->
-          <div class="metric-card">
-            <div class="metric-header">
-              <div>
-                <p class="metric-title">Total Users</p>
-                <p class="metric-value" data-target="1245">0</p>
+        <!-- Dashboard View -->
+        <div id="view-Dashboard" class="view">
+          <h2 class="dashboard-title">Dashboard Overview</h2>
+          <div class="metrics-grid">
+            <!-- Metric Card: Total Users -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <div>
+                  <p class="metric-title">Total Users</p>
+                  <p class="metric-value" data-target="1245">0</p>
+                </div>
+                <div class="metric-icon">
+                  <i data-lucide="users"></i>
+                </div>
               </div>
-              <div class="metric-icon">
-                <i data-lucide="users"></i>
+              <div class="metric-footer">
+                <span class="metric-change positive">▲ 5%</span>
+                <span class="metric-period">vs last month</span>
               </div>
             </div>
-            <div class="metric-footer">
-              <span class="metric-change positive">▲ 5%</span>
-              <span class="metric-period">vs last month</span>
+            <!-- Metric Card: Total Sales -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <div>
+                  <p class="metric-title">Total Sales</p>
+                  <p class="metric-value" data-target="893">0</p>
+                </div>
+                <div class="metric-icon">
+                  <i data-lucide="file-bar-chart"></i>
+                </div>
+              </div>
+              <div class="metric-footer">
+                <span class="metric-change positive">▲ 8%</span>
+                <span class="metric-period">vs last month</span>
+              </div>
+            </div>
+            <!-- Metric Card: Revenue -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <div>
+                  <p class="metric-title">Revenue</p>
+                  <p class="metric-value" data-target="45700">0</p>
+                </div>
+                <div class="metric-icon">
+                  <i data-lucide="trending-up"></i>
+                </div>
+              </div>
+              <div class="metric-footer">
+                <span class="metric-change positive">▲ 12%</span>
+                <span class="metric-period">vs last month</span>
+              </div>
+            </div>
+            <!-- Metric Card: Active Sessions -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <div>
+                  <p class="metric-title">Active Sessions</p>
+                  <p class="metric-value" data-target="178">0</p>
+                </div>
+                <div class="metric-icon">
+                  <i data-lucide="user"></i>
+                </div>
+              </div>
+              <div class="metric-footer">
+                <span class="metric-change negative">▼ 3%</span>
+                <span class="metric-period">vs last month</span>
+              </div>
             </div>
           </div>
-          <!-- Metric Card: Total Sales -->
-          <div class="metric-card">
-            <div class="metric-header">
-              <div>
-                <p class="metric-title">Total Sales</p>
-                <p class="metric-value" data-target="893">0</p>
+        </div>
+
+        <!-- Add User View -->
+        <div id="view-AddUser" class="view" hidden>
+          <h2 class="dashboard-title">Add New User</h2>
+          <div class="form-container">
+            <form id="addUserForm" class="user-form">
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required />
               </div>
-              <div class="metric-icon">
-                <i data-lucide="file-bar-chart"></i>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
               </div>
-            </div>
-            <div class="metric-footer">
-              <span class="metric-change positive">▲ 8%</span>
-              <span class="metric-period">vs last month</span>
-            </div>
+              <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                  <option value="admin">Admin</option>
+                  <option value="editor">Editor</option>
+                  <option value="viewer">Viewer</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add User</button>
+              </div>
+            </form>
           </div>
-          <!-- Metric Card: Revenue -->
-          <div class="metric-card">
-            <div class="metric-header">
-              <div>
-                <p class="metric-title">Revenue</p>
-                <p class="metric-value" data-target="45700">0</p>
-              </div>
-              <div class="metric-icon">
-                <i data-lucide="trending-up"></i>
-              </div>
-            </div>
-            <div class="metric-footer">
-              <span class="metric-change positive">▲ 12%</span>
-              <span class="metric-period">vs last month</span>
-            </div>
-          </div>
-          <!-- Metric Card: Active Sessions -->
-          <div class="metric-card">
-            <div class="metric-header">
-              <div>
-                <p class="metric-title">Active Sessions</p>
-                <p class="metric-value" data-target="178">0</p>
-              </div>
-              <div class="metric-icon">
-                <i data-lucide="user"></i>
-              </div>
-            </div>
-            <div class="metric-footer">
-              <span class="metric-change negative">▼ 3%</span>
-              <span class="metric-period">vs last month</span>
-            </div>
+        </div>
+
+        <!-- All Users View -->
+        <div id="view-AllUsers" class="view" hidden>
+          <h2 class="dashboard-title">All Users</h2>
+          <div class="table-container">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jane Cooper</td>
+                  <td>jane.cooper@example.com</td>
+                  <td>Admin</td>
+                  <td class="action-cell">
+                    <button class="btn btn-secondary">
+                      <i data-lucide="edit-2" class="btn-icon"></i>Update
+                    </button>
+                    <button class="btn btn-danger">
+                      <i data-lucide="trash-2" class="btn-icon"></i>Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Cody Fisher</td>
+                  <td>cody.fisher@example.com</td>
+                  <td>Editor</td>
+                  <td class="action-cell">
+                    <button class="btn btn-secondary">
+                      <i data-lucide="edit-2" class="btn-icon"></i>Update
+                    </button>
+                    <button class="btn btn-danger">
+                      <i data-lucide="trash-2" class="btn-icon"></i>Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Esther Howard</td>
+                  <td>esther.howard@example.com</td>
+                  <td>Viewer</td>
+                  <td class="action-cell">
+                    <button class="btn btn-secondary">
+                      <i data-lucide="edit-2" class="btn-icon"></i>Update
+                    </button>
+                    <button class="btn btn-danger">
+                      <i data-lucide="trash-2" class="btn-icon"></i>Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </main>
