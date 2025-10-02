@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebarTitle = document.getElementById('sidebar-title');
   const profileName = document.getElementById('profile-name');
-  
+
   const navItems = document.querySelectorAll('.nav-item');
   const navGroupToggles = document.querySelectorAll('[data-group-id]');
 
@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const metricValueElements = document.querySelectorAll('.metric-value');
 
+  const themeSelect = document.getElementById('theme-select');
+  const views = document.querySelectorAll('.view');
+
   // --- State Management ---
   // Initial state is determined by screen size
   let isSidebarCollapsed = window.innerWidth < DESKTOP_BREAKPOINT;
@@ -31,20 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
     Reports: false,
     Analytics: false,
   };
-  
+
   // Data attribute to store user's manual toggle intent on desktop
   sidebar.dataset.userCollapsed = isSidebarCollapsed.toString();
 
 
   // --- Functions ---
-  
+
   /**
    * Applies the collapsed or expanded state to the sidebar elements.
    * @param {boolean} collapsed - True to collapse, False to expand.
    */
   function applySidebarState(collapsed) {
     isSidebarCollapsed = collapsed;
-    
+
     // Toggle classes on the main sidebar element
     sidebar.classList.toggle('sidebar-expanded', !collapsed);
     sidebar.classList.toggle('sidebar-collapsed', collapsed);
@@ -52,18 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update the toggle button icon
     const icon = collapsed ? 'menu' : 'x';
     sidebarToggle.innerHTML = `<i data-lucide="${icon}"></i>`;
-    lucide.createIcons(); 
+    lucide.createIcons();
 
     // Update accessibility and visibility of non-icon elements
     sidebarToggle.setAttribute('aria-label', collapsed ? 'Open sidebar' : 'Close sidebar');
     sidebarTitle.style.opacity = '1';
-    
+
     if (window.innerWidth >= DESKTOP_BREAKPOINT) {
         profileName.style.display = collapsed ? 'none' : 'inline';
     } else {
         profileName.style.display = 'inline'; // Always show name when sidebar is open on mobile
     }
-    
+
     // Close any open submenus when collapsing the sidebar
     if (collapsed) {
         Object.keys(expandedGroups).forEach(group => {
@@ -87,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleSidebarWithUserIntent() {
       const newState = !isSidebarCollapsed;
       applySidebarState(newState);
-      
+
       // Store user intent only when on desktop
       if (window.innerWidth >= DESKTOP_BREAKPOINT) {
         sidebar.dataset.userCollapsed = newState.toString();
@@ -113,25 +116,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 100); // Debounce resize for performance
   }
-  
+
   /**
-   * Sets the active navigation item.
+   * Sets the active navigation item and displays the corresponding view.
    */
   function setActiveNav(navId) {
     activeNavId = navId;
-    
+
+    // Update navigation item styles
     navItems.forEach(item => item.classList.remove('nav-item-active'));
-    
+
     const newActiveItem = document.querySelector(`[data-nav-id="${navId}"]`);
     if (newActiveItem) {
         newActiveItem.classList.add('nav-item-active');
-        
+
         const parentGroup = newActiveItem.closest('.nav-group');
         if (parentGroup) {
             parentGroup.querySelector('[data-group-id]').classList.add('nav-item-active');
         }
     }
-    
+
+    // Switch views
+    views.forEach(view => {
+        view.hidden = true;
+    });
+
+    const activeView = document.getElementById(`view-${navId}`);
+    if (activeView) {
+        activeView.hidden = false;
+    } else {
+        // If a specific view isn't found, default to the dashboard.
+        // This handles cases where a nav item doesn't have a dedicated view.
+        const dashboardView = document.getElementById('view-Dashboard');
+        if (dashboardView) {
+            dashboardView.hidden = false;
+        }
+    }
+
     // Auto-close sidebar on mobile after selection
     if (window.innerWidth < DESKTOP_BREAKPOINT) {
         applySidebarState(true);
@@ -143,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function toggleGroup(groupId) {
     // Prevent toggling groups if sidebar is collapsed on desktop
-    if (isSidebarCollapsed && window.innerWidth >= DESKTOP_BREAKPOINT) return; 
+    if (isSidebarCollapsed && window.innerWidth >= DESKTOP_BREAKPOINT) return;
 
     expandedGroups[groupId] = !expandedGroups[groupId];
     const isExpanded = expandedGroups[groupId];
@@ -162,16 +183,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function countUp(el, duration = 1500) {
     const endValue = parseInt(el.getAttribute('data-target'), 10);
     if (isNaN(endValue)) return;
-    
+
     let startTime = null;
 
     function animation(currentTime) {
       if (startTime === null) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
       const currentValue = Math.floor(progress * endValue);
-      
+
       el.textContent = currentValue.toLocaleString();
-      
+
       if (progress < 1) {
         requestAnimationFrame(animation);
       } else {
@@ -179,6 +200,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     requestAnimationFrame(animation);
+  }
+
+  /**
+   * Applies the selected theme.
+   * @param {string} theme - The theme to apply ('light', 'dark', or 'system').
+   */
+  function applyTheme(theme) {
+    let finalTheme = theme;
+    if (theme === 'system') {
+      finalTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    document.documentElement.setAttribute('data-theme', finalTheme);
+    localStorage.setItem('theme', theme); // Always store the user's *choice*
+    if (themeSelect) {
+        themeSelect.value = theme;
+    }
   }
 
 
@@ -201,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
   navItems.forEach(item => {
     item.addEventListener('click', (e) => {
       if (e.currentTarget.hasAttribute('data-group-id')) return;
-      
+
       const navId = item.getAttribute('data-nav-id');
       if (navId) {
         setActiveNav(navId);
@@ -232,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
       profileMenu.style.display = 'none';
       profileButton.setAttribute('aria-expanded', 'false');
     }
-    
+
     // Auto-close sidebar on mobile if it's open and user clicks outside
     const isMobile = window.innerWidth < DESKTOP_BREAKPOINT;
     if (isMobile && !isSidebarCollapsed && !sidebar.contains(event.target)) {
@@ -243,18 +281,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Theme selector
+  if (themeSelect) {
+    themeSelect.addEventListener('change', (e) => {
+        applyTheme(e.target.value);
+    });
+  }
+
+  // Listen for changes in system theme preference
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'system') {
+      applyTheme('system');
+    }
+  });
+
 
   // --- Initializations ---
 
   // Initial setup of the sidebar state
   handleResize();
-  
+
   // Trigger the count-up animation for all metric cards
   metricValueElements.forEach(el => countUp(el));
 
   // Set the initial active navigation item
   setActiveNav(activeNavId);
-  
+
+  // Apply saved theme on load
+  const savedTheme = localStorage.getItem('theme') || 'system';
+  applyTheme(savedTheme);
+
   // Initial render of Lucide icons
   lucide.createIcons();
 });
